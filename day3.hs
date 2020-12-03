@@ -1,14 +1,16 @@
 
 ski :: (Int, Int) -> [[Int]] -> Int
-ski (n, m) x = sum . map (ski' n) $ zip [0..] x
-    where ski' c (x, y) = if ((mod x c) /= 0) then 0 else y !! (mod (m * (div x c)) (length y))
+ski (m, n) x = sum . map (ski' n) $ zip [0..] x
+    where ski' c (x, y) = if ((mod x c) /= 0) 
+                          then 0 
+                          else y !! (mod (m * (div x c)) (length y))
 
 
 input :: String -> [[Int]]
 input = map (map (\x -> if x == '#' then 1 else 0)) . lines 
 
-part1 = [(1,3)]
-part2 = [(1,1), (1,3), (1,5), (1,7), (2,1)]
+part1 = [(3,1)]
+part2 = [(1,1), (3,1), (5,1), (7,1), (1,2)]
 
 main = do 
     contents <- readFile "inputs/day3.txt"

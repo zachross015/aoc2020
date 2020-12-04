@@ -12,9 +12,10 @@ input = map (map (\x -> if x == '#' then 1 else 0)) . lines
 part1 = [(3,1)]
 part2 = [(1,1), (3,1), (5,1), (7,1), (1,2)]
 
-day2 = product . map ((\f -> f $ input contents) . (\a -> ski a))
+
+day2 c = product . map ((\f -> f $ input c) . (\a -> ski a))
 
 main = do 
     contents <- readFile "inputs/day3.txt"
-    print $ day2 part1
-    print $ day2 part2
+    print $ day2 contents part1
+    print $ day2 contents part2

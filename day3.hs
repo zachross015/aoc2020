@@ -1,21 +1,20 @@
+slope (dx, dy) (width, height) = [(dy * i * width) + (mod (dx * i) width) | i <- [0..height], dy * i < height]
 
-ski :: (Int, Int) -> [[Int]] -> Int
-ski (dx, dy) inp = sum . map ski' $ zip inp [0..]
-    where ski' (x, y) = if ((mod y dy) /= 0) 
-                          then 0 
-                          else x !! (mod (dx * (div y dy)) (length x))
+ski :: [Int] -> [Int] -> Int
+ski hill = sum . map (\x -> hill !! x)
 
-
-input :: String -> [[Int]]
-input = map (map (\x -> if x == '#' then 1 else 0)) . lines 
+input :: String -> ([Int], Int, Int)
+input inp = (map (\x -> if x == '#' then 1 else 0) (filter (\x -> x /= '\n') inp), width inp, height inp)
+    where height = length . lines
+          width = length . head . lines
 
 part1 = [(3,1)]
 part2 = [(1,1), (3,1), (5,1), (7,1), (1,2)]
 
-
-day2 c = product . map ((\f -> f $ input c) . (\a -> ski a))
+day3 part content = let (hill, width, height) = input content in 
+        product . map ((ski hill) . (\a -> slope a (width, height))) $ part
 
 main = do 
     contents <- readFile "inputs/day3.txt"
-    print $ day2 contents part1
-    print $ day2 contents part2
+    print $ day3 part1 contents
+    print $ day3 part2 contents

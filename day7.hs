@@ -3,14 +3,20 @@ import qualified Data.Map as M
 import Data.Set (Set)
 import qualified Data.Set as S
 import Data.List
+import Data.Char
+
+unnecessaryWords = ["no", "other", "bags.", "bags,", "bags", "contain", "bag,", "bag."]
+weight = digitToInt . head . head
+key = intercalate " " . take 2
 
 parseBag :: [String] -> [(Int, String)]
-parseBag (["no", "other", "bags."]) = []
-parseBag (x1:x2:x3:x4:xs) = (read x1, x2 ++ " " ++ x3):(if last x4 == ',' then (parseBag xs) else []) 
+parseBag [] = []
+parseBag s = (weight s, key . drop 1 $ s):(parseBag . drop 3 $ s)
 
 makeBags :: String -> Map String [(Int, String)]
 makeBags s = foldr M.union M.empty . map (makeBag' . words) . lines $ s
-    where makeBag' s = M.singleton (intercalate " " . take 2 $ s) (parseBag . drop 4 $ s)
+          where values = parseBag . filter (\x -> not $ x `elem` unnecessaryWords) . drop 2
+                makeBag' w = M.singleton (key w) (values w)
 
 transitiveClosure :: String -> Map String [(Int, String)] -> Set String
 transitiveClosure s m = S.union (S.fromList directBags) (foldr closureFold S.empty directBags)

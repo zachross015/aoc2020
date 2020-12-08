@@ -32,7 +32,6 @@ runInstruction (Computer is p a)
 part1 :: Computer -> Set Int -> Int
 part1 (Computer is p a) s = if S.member p s then a else part1 (runInstruction (Computer is p a)) (S.insert p s)
 
-
 tryPath :: Computer -> Set Int -> Maybe Int
 tryPath (Computer is p a) s = if p == ((length is) - 1) then (Just a)
                               else (if S.member p s 

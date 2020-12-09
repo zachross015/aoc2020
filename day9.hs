@@ -9,7 +9,7 @@ twoCombinationSums :: (Num a, Eq a) => [a] -> [a]
 twoCombinationSums xs = [a + b | a <- xs, b <- xs, a /= b]
 
 elementIsValid :: (Num a, Eq a) => [a] -> a -> Bool
-elementIsValid p e = if e `elem` (twoCombinationSums p) then True else False
+elementIsValid p e =  e `elem` (twoCombinationSums p)
 
 nonValidElement :: (Num a, Eq a) => [a] -> a
 nonValidElement (x:xs) = if elementIsValid p e then nonValidElement xs else e

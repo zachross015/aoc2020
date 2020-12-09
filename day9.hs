@@ -21,7 +21,7 @@ contiguousSublist n (x:xs) = if (n - x) < 0
                                 then Nothing 
                                 else (if (n - x) == 0 
                                     then Just [x]
-                                    else fmap ((:) x) (contiguousSublist (n - x) xs))
+                                    else fmap (x:) (contiguousSublist (n - x) xs))
 
 contiguousList :: (Num a, Ord a) => a -> [a] -> [a]
 contiguousList n (x:xs) = contiguousList' (contiguousSublist n (x:xs))
